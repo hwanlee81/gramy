@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>(주)그라미 - GRAMI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Malgun Gothic', sans-serif;
+            overflow-x: hidden;
+            background: #000;
+        }
+
+        /* 헤더 */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 100%);
+            backdrop-filter: blur(20px);
+            padding: 25px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .logo {
+            font-size: 36px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c2c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 3px;
+            text-shadow: 0 0 30px rgba(77, 124, 44, 0.5);
+        }
+
+        .contact-btn {
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c2c 100%);
+            color: white;
+            padding: 15px 35px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 700;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(77, 124, 44, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .contact-btn:hover:before {
+            left: 100%;
+        }
+
+        .contact-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(77, 124, 44, 0.6);
+        }
+
+        /* 히어로 섹션 */
+        .hero {
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2400') center/cover;
+            animation: zoomIn 20s ease infinite alternate;
+        }
+
+        @keyframes zoomIn {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(45, 80, 22, 0.6) 0%, rgba(74, 124, 44, 0.6) 100%);
+            mix-blend-mode: multiply;
+        }
+
+        .hero-content {
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 80px;
+            margin-bottom: 30px;
+            font-weight: 900;
+            text-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            animation: fadeInUp 1s ease;
+            letter-spacing: 5px;
+        }
+
+        .hero p {
+            font-size: 28px;
+            font-weight: 300;
+            letter-spacing: 8px;
+            animation: fadeInUp 1s ease 0.3s backwards;
+            text-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 상품군 섹션 */
+        .products {
+            padding: 120px 60px;
+            background: linear-gradient(180deg, #000 0%, #1a1a2e 50%, #000 100%);
+            position: relative;
+        }
+
+        .products:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><rect width="1" height="1" x="50" y="50" fill="rgba(77,124,44,0.1)"/></svg>') repeat;
+            opacity: 0.3;
+        }
+
+        .products h2 {
+            text-align: center;
+            font-size: 52px;
+            margin-bottom: 80px;
+            background: linear-gradient(135deg, #fff 0%, #4a7c2c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+            position: relative;
+            z-index: 1;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .product-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+            border-radius: 20px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .product-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(77, 124, 44, 0.2) 0%, rgba(45, 80, 22, 0.2) 100%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .product-card:hover:before {
+            opacity: 1;
+        }
+
+        .product-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: rgba(77, 124, 44, 0.5);
+            box-shadow: 0 25px 60px rgba(77, 124, 44, 0.4);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 280px;
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c2c 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 64px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image:after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .product-card:nth-child(2) .product-image {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .product-card:nth-child(3) .product-image {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .product-card:nth-child(4) .product-image {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .product-card:nth-child(5) .product-image {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        .product-card:nth-child(6) .product-image {
+            background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+        }
+
+        .product-icon {
+            position: relative;
+            z-index: 1;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));
+        }
+
+        .product-info {
+            padding: 35px;
+            position: relative;
+        }
+
+        .product-info h3 {
+            font-size: 26px;
+            margin-bottom: 18px;
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .product-info p {
+            color: rgba(255,255,255,0.7);
+            line-height: 1.8;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+
+        .product-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 20px;
+        }
+
+        .product-card.active .product-details {
+            max-height: 400px;
+        }
+
+        .product-details ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .product-details li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.8);
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .product-details li:hover {
+            padding-left: 10px;
+            color: #4a7c2c;
+        }
+
+        .product-details li:before {
+            content: "▸ ";
+            color: #4a7c2c;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .expand-icon {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: rgba(77, 124, 44, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4a7c2c;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .product-card.active .expand-icon {
+            transform: rotate(180deg);
+            background: rgba(77, 124, 44, 0.4);
+        }
+
+        /* 큐비클 갤러리 */
+        .cubicle-gallery {
+            padding: 120px 60px;
+            background: linear-gradient(180deg, #000 0%, #0a1a0a 100%);
+            position: relative;
+        }
+
+        .cubicle-gallery h2 {
+            text-align: center;
+            font-size: 52px;
+            margin-bottom: 80px;
+            background: linear-gradient(135deg, #fff 0%, #4a7c2c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+        }
+
+        .cubicle-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .cubicle-item {
+            position: relative;
+            height: 500px;
+            border-radius: 25px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid rgba(77, 124, 44, 0.3);
+        }
+
+        .cubicle-item:hover {
+            transform: scale(1.05) translateY(-10px);
+            border-color: rgba(77, 124, 44, 0.8);
+            box-shadow: 0 30px 80px rgba(77, 124, 44, 0.5);
+            z-index: 10;
+        }
+
+        .cubicle-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .cubicle-item:hover img {
+            transform: scale(1.15) rotate(2deg);
+        }
+
+        .cubicle-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(0deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 60%, transparent 100%);
+            padding: 40px;
+            transform: translateY(100%);
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .cubicle-item:hover .cubicle-overlay {
+            transform: translateY(0);
+        }
+
+        .cubicle-overlay h3 {
+            color: #fff;
+            font-size: 28px;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+
+        .cubicle-overlay p {
+            color: rgba(255,255,255,0.8);
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .cubicle-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c2c 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
+        /* 팝업 */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .popup-overlay.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup {
+            background: linear-gradient(145deg, rgba(26, 26, 46, 0.95) 0%, rgba(0, 0, 0, 0.95) 100%);
+            padding: 60px;
+            border-radius: 25px;
+            max-width: 550px;
+            width: 90%;
+            position: relative;
+            border: 1px solid rgba(77, 124, 44, 0.3);
+            box-shadow: 0 25px 80px rgba(77, 124, 44, 0.3);
+            animation: slideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .popup h3 {
+            font-size: 32px;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #fff 0%, #4a7c2c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            font-weight: 800;
+        }
+
+        .popup-close {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background: rgba(77, 124, 44, 0.2);
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            color: #fff;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .popup-close:hover {
+            background: rgba(77, 124, 44, 0.4);
+            transform: rotate(90deg);
+        }
+
+        .contact-info {
+            margin: 20px 0;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            margin: 15px 0;
+            background: linear-gradient(135deg, rgba(77, 124, 44, 0.1) 0%, rgba(45, 80, 22, 0.1) 100%);
+            border-radius: 15px;
+            border: 1px solid rgba(77, 124, 44, 0.2);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-item:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(77, 124, 44, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .contact-item:hover:before {
+            left: 100%;
+        }
+
+        .contact-item:hover {
+            background: linear-gradient(135deg, rgba(77, 124, 44, 0.2) 0%, rgba(45, 80, 22, 0.2) 100%);
+            transform: translateX(10px);
+            border-color: rgba(77, 124, 44, 0.5);
+        }
+
+        .contact-icon {
+            font-size: 28px;
+            margin-right: 20px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c2c 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .contact-text {
+            flex: 1;
+        }
+
+        .contact-label {
+            font-size: 12px;
+            color: rgba(255,255,255,0.5);
+            display: block;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .contact-value {
+            font-size: 18px;
+            color: #fff;
+            font-weight: 700;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* 반응형 */
+        @media (max-width: 768px) {
+            header {
+                padding: 20px 25px;
+            }
+
+            .logo {
+                font-size: 26px;
+            }
+
+            .hero h1 {
+                font-size: 42px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            .products {
+                padding: 80px 25px;
+            }
+
+            .products h2 {
+                font-size: 36px;
+            }
+
+            .cubicle-gallery {
+                padding: 80px 25px;
+            }
+
+            .cubicle-gallery h2 {
+                font-size: 36px;
+            }
+
+            .cubicle-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .popup {
+                padding: 40px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더 -->
+    <header>
+        <div class="logo">GRAMI</div>
+        <button class="contact-btn" onclick="openPopup()">영업부 문의</button>
+    </header>
+
+    <!-- 히어로 섹션 -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>(주)그라미</h1>
+            <p>NATURE & QUALITY</p>
+        </div>
+    </section>
+
+    <!-- 상품군 섹션 -->
+    <section class="products">
+        <h2>PRODUCT LINE-UP</h2>
+        <div class="product-grid">
+            <div class="product-card" onclick="toggleDetails(this)">
+                <div class="product-image">
+                    <div class="product-icon">🚪</div>
+                </div>
+                <div class="product-info">
+                    <h3>화장실 칸막이</h3>
+                    <p>위생적이고 내구성 높은 프리미엄 화장실 칸막이 전문 제품입니다.</p>
+                    <div class="product-details">
+                        <ul>
+                            <li>HPL 칸막이 (고압멜라민)</li>
+                            <li>큐비클 시스템</li>
+                            <li>소변기 칸막이</li>
+                            <li>방수 칸막이</li>
+                            <li>항균 코팅 칸막이</li>
+                        </ul>
+                    </div>
+                    <div class="expand-icon">▼</div>
+                </div>
+            </div>
+
+            <div class="product-card" onclick="toggleDetails(this)">
+                <div class="product-image">
+                    <div class="product-icon">🏗️</div>
+                </div>
+                <div class="product-info">
+                    <h3>건축 자재</h3>
+                    <p>고품질 건축 자재로 안전하고 견고한 건축을 실현합니다.</p>
+                    <div class="product-details">
+                        <ul>
+                            <li>구조용 철강재</li>
+                            <li>콘크리트 자재</li>
+                            <li>단열재 및 방수재</li>
+                            <li>마감재</li>
+                        </ul>
+                    </div>
+                    <div class="expand-icon">▼</div>
+                </div>
+            </div>
+
+            <div class="product-card" onclick="toggleDetails(this)">
+                <div class="product-image">
+                    <div class="product-icon">🔧</div>
+                </div>
+                <div class="product-info">
+                    <h3>설비 자재</h3>
+                    <p>최신 설비 자재로 효율적인 시공을 지원합니다.</p>
+                    <div class="product-details">
+                        <ul>
+                            <li>배관 자재</li>
+                            <li>전기 설비 자재</li>
+                            <li>공조 설비</li>
+                            <li>소방 설비</li>
+                        </ul>
+                    </div>
+                    <div class="expand-icon">▼</div>
+                </div>
+            </div>
+
+            <div class="product-card" onclick="toggleDetails(this)">
+                <div class="product-image">
+                    <div class="product-icon">🎨</div>
+                </div>
+                <div class="product-info">
+                    <h3>인테리어 자재</h3>
+                    <p>세련된 공간을 위한 프리미엄 인테리어 자재를 제공합니다.</p>
+                    <div class="product-details">
+                        <ul>
+                            <li>바닥재</li>
+                            <li>벽지 및 페인트</li>
+                            <li>조명 설비</li>
+                            <li>몰딩 및 액세서리</li>
+                        </ul>
+                    </div>
+                    <div class="expand-icon">▼</div>
+                </div>
+            </div>
+
+            <div class="product-card" onclick="toggleDetails(this)">
+                <div class="product-image">
+                    <div class="product-icon">🌿</div>
+                </div>
+                <div class="product-info">
+                    <h3>친환경 자재</h3>
+                    <p>지속 가능한 미래를 위한 친환경 건축 자재입니다.</p>
+                    <div class="product-details">
+                        <ul>
+                            <li>재활용 자재</li>
+                            <li>저탄소 콘크리트</li>
+                            <li>자연 단열재</li>
+                            <li>친환경 인증 제품</li>
+                        </ul>
+                    </div>
+                    <div class="expand-icon">▼</div>
+                </div>
+            </div>
+
+            <div class="product-card" onclick="toggleDetails(this)">
+                <div class="product-image">
+                    <div class="product-icon">🛠️</div>
+                </div>
+                <div class="product-info">
+                    <h3>시공 도구</h3>
+                    <p>전문가를 위한 고급 시공 도구와 장비를 제공합니다.</p>
+                    <div class="product-details">
+                        <ul>
+                            <li>전동 공구</li>
+                            <li>측정 장비</li>
+                            <li>안전 장비</li>
+                            <li>운반 장비</li>
+                        </ul>
+                    </div>
+                    <div class="expand-icon">▼</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 큐비클 갤러리 -->
+    <section class="cubicle-gallery">
+        <h2>프리미엄 큐비클 시공</h2>
+        <div class="cubicle-grid">
+            <div class="cubicle-item">
+                <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=1200" alt="큐비클">
+                <div class="cubicle-overlay">
+                    <h3>럭셔리 큐비클 시스템</h3>
+                    <p>고급 호텔 및 상업시설을 위한 프리미엄 HPL 큐비클입니다. 뛰어난 내구성과 세련된 디자인으로 최상의 공간을 연출합니다.</p>
+                    <span class="cubicle-badge">프리미엄 라인</span>
+                </div>
+            </div>
+
+            <div class="cubicle-item">
+                <img src="https://images.unsplash.com/photo-1620626011761-996317b8d101?w=1200" alt="큐비클">
+                <div class="cubicle-overlay">
+                    <h3>모던 큐비클 디자인</h3>
+                    <p>현대적인 감각의 큐비클 시스템으로 오피스 빌딩과 대형 상업시설에 최적화되어 있습니다. 다양한 컬러와 마감재 선택이 가능합니다.</p>
+                    <span class="cubicle-badge">베스트셀러</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 연락처 팝업 -->
+    <div class="popup-overlay" id="popupOverlay" onclick="closePopup(event)">
+        <div class="popup" onclick="event.stopPropagation()">
+            <button class="popup-close" onclick="closePopup()">×</button>
+            <h3>영업부 연락처</h3>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-icon">📱</div>
+                    <div class="contact-text">
+                        <span class="contact-label">영업부 직통</span>
+                        <span class="contact-value">010-3440-2096
